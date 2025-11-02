@@ -30,7 +30,7 @@ const Chatbot = () => {
     setLoading(true)
 
     try {
-      const response = await axios.post('http://localhost:8000/api/chat', {
+      const response = await axios.post('https://abhishek2607-medicure-backend.hf.space/api/chat', {
         message: input,
         chat_history: messages
       })

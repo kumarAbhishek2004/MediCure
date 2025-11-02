@@ -14,13 +14,13 @@ const MedicinePrediction = () => {
     
     setLoading({ ...loading, usage: true })
     try {
-      const response = await axios.post('http://localhost:8000/api/medicine/usage', {
+      const response = await axios.post('https://abhishek2607-medicure-backend.hf.space/api/medicine/usage', {
         medicine_name: medicineName
       })
       setUsage(response.data.usage)
     } catch (error) {
       console.error('Error predicting usage:', error)
-      alert('Error predicting medicine usage')
+      alert('Error predicting medicine usage. Please try again.')
     }
     setLoading({ ...loading, usage: false })
   }
@@ -30,13 +30,13 @@ const MedicinePrediction = () => {
     
     setLoading({ ...loading, sideEffects: true })
     try {
-      const response = await axios.post('http://localhost:8000/api/medicine/side-effects', {
+      const response = await axios.post('https://abhishek2607-medicure-backend.hf.space/api/medicine/side-effects', {
         medicine_name: medicineName
       })
       setSideEffects(response.data.side_effects)
     } catch (error) {
       console.error('Error predicting side effects:', error)
-      alert('Error predicting side effects')
+      alert('Error predicting side effects. Please try again.')
     }
     setLoading({ ...loading, sideEffects: false })
   }
@@ -46,15 +46,21 @@ const MedicinePrediction = () => {
     
     setLoading({ ...loading, substitutes: true })
     try {
-      const response = await axios.post('http://localhost:8000/api/medicine/substitutes', {
+      const response = await axios.post('https://abhishek2607-medicure-backend.hf.space/api/medicine/substitutes', {
         medicine_name: medicineName
       })
       setSubstitutes(response.data.substitutes)
     } catch (error) {
       console.error('Error predicting substitutes:', error)
-      alert('Error predicting substitutes')
+      alert('Error predicting substitutes. Please try again.')
     }
     setLoading({ ...loading, substitutes: false })
+  }
+
+  const handleClearResults = () => {
+    setUsage(null)
+    setSideEffects(null)
+    setSubstitutes(null)
   }
 
   return (
@@ -73,10 +79,18 @@ const MedicinePrediction = () => {
             type="text"
             value={medicineName}
             onChange={(e) => setMedicineName(e.target.value)}
-            placeholder="Enter medicine name..."
+            placeholder="Enter medicine name (e.g., Paracetamol, Aspirin)..."
             className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             onKeyPress={(e) => e.key === 'Enter' && handlePredictUsage()}
           />
+          {(usage || sideEffects || substitutes) && (
+            <button
+              onClick={handleClearResults}
+              className="px-4 py-3 text-gray-600 hover:text-gray-800 font-medium"
+            >
+              Clear
+            </button>
+          )}
         </div>
 
         <div className="grid md:grid-cols-3 gap-4">

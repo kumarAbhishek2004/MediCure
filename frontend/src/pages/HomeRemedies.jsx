@@ -7,7 +7,7 @@ const HomeRemedies = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const API_URL = 'http://localhost:8000'
+  const API_URL = 'https://abhishek2607-medicure-backend.hf.space'
 
   const handleSearch = async () => {
     if (!disease.trim()) {
@@ -45,7 +45,7 @@ const HomeRemedies = () => {
       console.error('Error details:', err)
       
       if (err.message.includes('Failed to fetch')) {
-        setError('Cannot connect to backend. Make sure the API is running on http://localhost:8000')
+        setError('Cannot connect to backend. Make sure the API is running on https://abhishek2607-medicure-backend.hf.space')
       } else {
         setError(`Error: ${err.message}`)
       }
@@ -61,7 +61,7 @@ const HomeRemedies = () => {
       console.log('Backend health:', data)
       alert(`✅ Backend is running!\n\nModels loaded: ${data.models_loaded}\nRemedies in database: ${data.remedy_count}`)
     } catch (err) {
-      alert('❌ Cannot connect to backend. Make sure it is running on http://localhost:8000')
+      alert('❌ Cannot connect to backend. Make sure it is running on https://abhishek2607-medicure-backend.hf.space')
     }
   }
 

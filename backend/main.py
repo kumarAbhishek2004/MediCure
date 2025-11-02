@@ -99,13 +99,18 @@ async def load_models():
             models_cache["remedy_df"] = pd.DataFrame(columns=["Health Issue", "Home Remedy", "Yogasan"])
 
         # --- Configure Gemini AI ---
-        api_key = os.getenv("GEMINI_API_KEY", "AIzaSyCy9Y1YAyVmRTMhk8shMrT_3bw6so67Yok")
-        try:
-            genai.configure(api_key=api_key)
-            models_cache["gemini_model"] = genai.GenerativeModel("gemini-2.0-flash-exp")
-            print("✓ Gemini AI configured")
-        except Exception as e:
-            print(f"⚠ Warning: Gemini AI configuration failed: {e}")
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            print("⚠️ WARNING: GEMINI_API_KEY environment variable not set!")
+            print("⚠️ Chat and AI remedy features will not work properly.")
+            print("⚠️ Please add GEMINI_API_KEY in Hugging Face Space settings.")
+        else:
+            try:
+                genai.configure(api_key=api_key)
+                models_cache["gemini_model"] = genai.GenerativeModel("gemini-2.0-flash-exp")
+                print("✓ Gemini AI configured")
+            except Exception as e:
+                print(f"⚠ Warning: Gemini AI configuration failed: {e}")
 
         print("✅ All models and data loaded successfully!\n")
 
@@ -447,5 +452,5 @@ async def chat(request: ChatRequest):
 # --- Run the API ---
 if __name__ == "__main__":
     import uvicorn
-    print("🚀 Starting MediCure API on http://localhost:8000")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    print("🚀 Starting MediCure API on http://localhost:7860")
+    uvicorn.run(app, host="0.0.0.0", port=7860)
